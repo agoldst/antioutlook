@@ -1,0 +1,34 @@
+#!/usr/bin/env python
+
+import urllib
+import regex as re
+
+# see URL spec s.v. [search], but we also need = which is reserved
+URL_CHAR = r'''[-a-zA-Z0-9$_@.&+!*"'()%,=]'''
+SAFE_BASE = r'https://\w+\.safelinks\.protection\.outlook\.com/\?url='
+SAFE_BASE_PAT = re.compile("^" + SAFE_BASE)
+SAFE_TAIL = '&data=' + URL_CHAR + '*'
+SAFE_TAIL_PAT = re.compile(SAFE_TAIL + "$")
+SAFE_PAT = re.compile(
+    SAFE_BASE + r'[^&]*' + SAFE_TAIL
+)
+
+def safe2sane(safe):
+    result = safe.group(0)
+    result = SAFE_BASE_PAT.sub("", result)
+    result = SAFE_TAIL_PAT.sub("", result)
+    result = urllib.unquote(result)
+    return result
+
+def antioutlook(line):
+    return SAFE_PAT.sub(safe2sane, line)
+
+if __name__ == "__main__":
+    import sys
+    for line in sys.stdin:
+        sys.stdout.write(antioutlook(line))
+
+
+
+
+
