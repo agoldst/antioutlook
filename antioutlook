@@ -1,4 +1,12 @@
 #!/usr/bin/env python
+#
+# A command-line filter to extract URLs from their garbled Outlook "Safe Links"
+# version. Since it appears that the "safe" link always contains the original
+# URL (in URL-quoted form) in a predictable place, this is not too hard. I
+# don't (of course) have access to MS's safelinkifying black box and because
+# this is just something I hacked together, so use or modify at your own risk.
+#
+# Andrew Goldstone, August 2017
 
 import urllib
 import regex as re
