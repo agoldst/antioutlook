@@ -3,8 +3,8 @@
 # A command-line filter to extract URLs from their garbled Outlook "Safe Links"
 # version. Since it appears that the "safe" link always contains the original
 # URL (in URL-quoted form) in a predictable place, this is not too hard. I
-# don't (of course) have access to MS's safelinkifying black box, and this is
-# just something I hacked together, so use or modify at your own risk.
+# don't (of course) have access to MS's safelinkifying black box and because
+# this is just something I hacked together, so use or modify at your own risk.
 #
 # Andrew Goldstone, August 2017
 
@@ -15,7 +15,7 @@ import regex as re
 URL_CHAR = r'''[-a-zA-Z0-9$_@.&+!*"'()%,=]'''
 SAFE_BASE = r'https://\w+\.safelinks\.protection\.outlook\.com/\?url='
 SAFE_BASE_PAT = re.compile("^" + SAFE_BASE)
-SAFE_TAIL = '&data=' + URL_CHAR + '*'
+SAFE_TAIL = '&amp;data=' + URL_CHAR + '*'
 SAFE_TAIL_PAT = re.compile(SAFE_TAIL + "$")
 SAFE_PAT = re.compile(
     SAFE_BASE + r'[^&]*' + SAFE_TAIL
