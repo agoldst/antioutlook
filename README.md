@@ -4,4 +4,4 @@ I am using this in conjunction with the [urlview](https://packages.debian.org/si
 
     macro index,pager "\Cb" "<pipe-message>antioutlook | urlview<enter>"
 
-
+It requires python 3.

@@ -3,12 +3,17 @@
 # A command-line filter to extract URLs from their garbled Outlook "Safe Links"
 # version. Since it appears that the "safe" link always contains the original
 # URL (in URL-quoted form) in a predictable place, this is not too hard. I
-# don't (of course) have access to MS's safelinkifying black box and because
+# don't (of course) have access to MS's safelinkifying black box and 
 # this is just something I hacked together, so use or modify at your own risk.
 #
-# Andrew Goldstone, August 2017
+# Andrew Goldstone
+# (last update: November 2021)
 
-import urllib
+import sys
+if sys.version_info[0] != 3:
+    sys.exit("This script requires Python 3.") # sigh
+
+from urllib import parse
 import regex as re
 
 # see URL spec s.v. [search], but we also need = which is reserved
@@ -26,18 +31,15 @@ def safe2sane(safe):
     result = safe.group(0)
     result = SAFE_BASE_PAT.sub("", result)
     result = SAFE_TAIL_PAT.sub("", result)
-    result = urllib.unquote(result)
+    result = parse.unquote(result)
     return result
 
 def antioutlook(line):
     return SAFE_PAT.sub(safe2sane, line)
 
 if __name__ == "__main__":
-    import sys
     for line in sys.stdin:
         sys.stdout.write(antioutlook(line))
-
-
 
 
 
