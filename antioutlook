@@ -14,7 +14,7 @@ if sys.version_info[0] != 3:
     sys.exit("This script requires Python 3.") # sigh
 
 from urllib import parse
-import regex as re
+import re
 
 # see URL spec s.v. [search], but we also need = which is reserved
 # and more upsettingly ampersands are now (Oct. 2018) recoded as entities &amp;
